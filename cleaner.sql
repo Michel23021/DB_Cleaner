@@ -1034,6 +1034,8 @@ FROM PAGO
 WHERE fecha_pago >= '2008-01-01' AND fecha_pago <= '2008-12-31';
 
 /* RETO H - Listado de pedidos que no han sido entregados a tiempo */
+SHOW TABLES;
+DESCRIBE PEDIDO;
 SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega 
 FROM PEDIDO 
 WHERE fecha_entrega > fecha_esperada;
@@ -1041,7 +1043,8 @@ WHERE fecha_entrega > fecha_esperada;
 /* RETO I - Listado de pedidos cuya fecha de entrega ha sido 
 al menos dos días antes de la fecha esperada */
 
-
+SHOW TABLES;
+DESCRIBE PEDIDO;
 SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega 
 FROM PEDIDO 
 WHERE fecha_entrega <= ADDDATE(fecha_esperada, INTERVAL -2 DAY);
@@ -1060,12 +1063,33 @@ WHERE estado = 'Rechazado'
 AND YEAR(fecha_pedido) = 2009;
 
 /* RETO K - Listado de todos los pedidos que han sido entregados en enero */
-SELECT * FROM PEDIDO 
+SHOW TABLES;
+DESCRIBE PEDIDO;
 WHERE MONTH(fecha_entrega) = 1;
 
 /* RETO L - Pagos realizados en 2008 mediante Paypal (Ordenado mayor a menor) */
-SELECT * FROM PAGO 
+SHOW TABLES;
+DESCRIBE PAGO;
+
 WHERE YEAR(fecha_pago) = 2008 
 AND forma_pago = 'Paypal' 
 ORDER BY total DESC;
+
+/* EJERCICIO M: Formas de pago sin repetir*/
+SHOW TABLES;
+DESCRIBE pago;
+SELECT DISTINCT forma_pago FROM pago;
+/*  EJERCICIO N: Productos Ornamentales con stock > 100 (Ordenados por mayor precio)*/
+SHOW TABLES;
+DESCRIBE producto;
+SELECT * FROM producto 
+  WHERE gama = 'Ornamentales'   
+  AND cantidad_en_stock > 100 
+  ORDER BY precio_venta DESC;
+/*  EJERCICIO O: Clientes en Madrid con representantes 11 o 30D*/
+DESCRIBE cliente;
+SELECT * FROM cliente 
+  WHERE ciudad = 'Madrid'   
+  AND codigo_empleado_rep_ventas 
+  IN (11, 30);
 
